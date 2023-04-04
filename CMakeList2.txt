@@ -1,0 +1,44 @@
+
+project(my_project)
+
+# Set the build type (Release by default)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build: Debug or Release" FORCE)
+endif()
+
+# Set C++ flags based on build type
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MTd /Od /Zi")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MT /O2")
+endif()
+
+# Set compiler path
+set(CMAKE_CXX_COMPILER "C:/Program Files (x86)/Microsoft Visual Studio/2017/Professional/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe")
+
+# Find all source files
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+
+# Find all header files
+file(GLOB_RECURSE HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
+
+# Set include directories
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+# Generate executable
+add_executable(my_executable ${SOURCES} ${HEADERS})
+
+# Generate static library
+add_library(my_static_library STATIC ${SOURCES} ${HEADERS})
+
+# Generate dynamic library
+add_library(my_dynamic_library SHARED ${SOURCES} ${HEADERS})
+set_target_properties(my_dynamic_library PROPERTIES OUTPUT_NAME "my_dynamic_library" PREFIX "")
+
+# Link external folders
+link_directories("/path/to/external/folder1" "/path/to/external/folder2")
+
+# Link external libraries
+target_link_libraries(my_executable "/path/to/external/library1.lib" "/path/to/external/library2.lib")
+target_link_libraries(my_static_library "/path/to/external/library1.lib" "/path/to/external/library2.lib")
+target_link_libraries(my_dynamic_library "/path/to/external/library1.lib" "/path/to/external/library2.lib")```
